@@ -1,5 +1,5 @@
 import dotenv from 'dotenv';
-import yup from 'yup';
+import * as yup from 'yup';
 import path from 'path';
 import AppError from '@utils/AppError.utils';
 

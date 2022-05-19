@@ -1,6 +1,7 @@
-import { Column, Entity, OneToMany } from 'typeorm';
+import { Column, Entity, OneToMany, ManyToOne } from 'typeorm';
 
 import Todo from './todo.models';
+import User from './user.models';
 
 import DefaultModel from './default.models';
 
@@ -11,6 +12,9 @@ class List extends DefaultModel {
 
   @OneToMany(() => Todo, todo => todo.list)
   todos: Todo[];
+
+  @ManyToOne(() => User, user => user.lists)
+  user: User;
 }
 
 export default List;
