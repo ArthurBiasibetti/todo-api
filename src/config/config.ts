@@ -30,6 +30,8 @@ const envVarsSchema = yup
     POSTGRES_DB: yup.string().required(),
     JWT_SECRET: yup.string().required(),
     SALT_WORK_FACTOR: yup.number().default(10),
+    ACCESS_TOKEN_TTL: yup.string().default('15m'),
+    REFRESH_TOKEN_TTL: yup.string().default('1y'),
   })
   .noUnknown();
 
@@ -55,6 +57,8 @@ const config = {
   },
   jwtSecret: envVars.JWT_SECRET,
   saltWorkFactor: envVars.SALT_WORK_FACTOR,
+  accessTokenTtl: envVars.ACCESS_TOKEN_TTL,
+  refreshTokenTtl: envVars.REFRESH_TOKEN_TTL,
 };
 
 export default config;

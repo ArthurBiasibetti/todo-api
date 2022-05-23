@@ -8,6 +8,7 @@ import {
 } from '@controllers/todo.controller';
 
 import { celebrate, Joi, Segments } from 'celebrate';
+import verifyAuth from 'src/middleware/verifyJWT';
 
 const routes = Router();
 
@@ -29,6 +30,7 @@ routes.route('/list/:listId').post(
 routes
   .route('/:id')
   .get(
+    verifyAuth,
     celebrate({
       [Segments.PARAMS]: {
         id: Joi.string().uuid().required(),
@@ -37,6 +39,7 @@ routes
     findTodoHandle,
   )
   .put(
+    verifyAuth,
     celebrate({
       [Segments.BODY]: {
         title: Joi.string(),
@@ -50,6 +53,7 @@ routes
     updateTodoHandle,
   )
   .delete(
+    verifyAuth,
     celebrate({
       [Segments.PARAMS]: {
         id: Joi.string().uuid().required(),

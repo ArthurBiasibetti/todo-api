@@ -6,22 +6,26 @@ import {
   getListsHandle,
   updateListHandle,
 } from '@controllers/list.controller';
-
 import { celebrate, Joi, Segments } from 'celebrate';
+
+import verifyAuth from 'src/middleware/verifyJWT';
 
 const routes = Router();
 
-routes
-  .route('/')
-  .get(getListsHandle)
-  .post(
-    celebrate({
-      [Segments.BODY]: {
-        title: Joi.string().required(),
-      },
-    }),
-    createListHandle,
-  );
+routes.route('/').get(verifyAuth, getListsHandle);
+
+routes.route('/user/:userId').post(
+  verifyAuth,
+  celebrate({
+    [Segments.BODY]: {
+      title: Joi.string().required(),
+    },
+    [Segments.PARAMS]: {
+      userId: Joi.string().uuid().required(),
+    },
+  }),
+  createListHandle,
+);
 
 routes
   .route('/:id')

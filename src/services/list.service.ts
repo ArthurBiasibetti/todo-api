@@ -1,4 +1,5 @@
 import List from '@models/list.models';
+import User from '@models/user.models';
 import AppError from '@utils/AppError.utils';
 import { getRepository } from 'typeorm';
 
@@ -6,10 +7,17 @@ interface IListRequest {
   title: string;
 }
 
-export const createList = async ({ title }: IListRequest) => {
+export const createList = async (userId: string, { title }: IListRequest) => {
+  const userRepository = getRepository(User);
   const listRepository = getRepository(List);
 
-  const list = listRepository.create({ title });
+  const user = await userRepository.findOne({ id: userId });
+
+  if (!user) {
+    throw new AppError('User not exist!');
+  }
+
+  const list = listRepository.create({ title, user });
 
   await listRepository.save(list);
 

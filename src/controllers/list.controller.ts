@@ -9,8 +9,9 @@ import {
 
 export const createListHandle = async (req: Request, res: Response) => {
   const { title } = req.body;
+  const { userId } = req.params;
 
-  const list = await createList({ title });
+  const list = await createList(userId, { title });
 
   return res.json(list);
 };

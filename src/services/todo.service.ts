@@ -46,6 +46,10 @@ export const findTodo = async (id: string) => {
 
   const todo = await todoRepository.findOne({ id });
 
+  if (!todo) {
+    throw new AppError('Todo not exist!');
+  }
+
   return todo;
 };
 

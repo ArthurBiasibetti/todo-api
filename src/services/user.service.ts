@@ -57,6 +57,18 @@ export const verifyLogin = async (email: string, password: string) => {
   const userRepository = getRepository(User);
 
   const user = await userRepository.findOne({ email });
+
+  if (!user) {
+    return false;
+  }
+
+  const passwordIsValid = await bcrypt.compare(password, user.password);
+
+  if (!passwordIsValid) {
+    return false;
+  }
+
+  return user;
 };
 
 export const findUsers = async () => {
