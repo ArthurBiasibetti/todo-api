@@ -97,9 +97,10 @@ describe('User Services', () => {
     });
 
     it('Should be able to find an user', async () => {
-      const user = await findUser('7dbfb38c-ec0e-4060-86eb-4eefc571231c');
+      const user = await findUser(findUserStub[0].id);
 
       expect(findUserFake).toBeCalledTimes(1);
+      expect(user).toEqual(findUserStub[0]);
     });
   });
 
