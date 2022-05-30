@@ -30,6 +30,7 @@ routes.route('/user/:userId').post(
 routes
   .route('/:id')
   .get(
+    verifyAuth,
     celebrate({
       [Segments.PARAMS]: {
         id: Joi.string().uuid().required(),
@@ -38,6 +39,7 @@ routes
     getListHandle,
   )
   .put(
+    verifyAuth,
     celebrate({
       [Segments.BODY]: {
         title: Joi.string().required(),
@@ -49,6 +51,7 @@ routes
     updateListHandle,
   )
   .delete(
+    verifyAuth,
     celebrate({
       [Segments.PARAMS]: {
         id: Joi.string().uuid().required(),

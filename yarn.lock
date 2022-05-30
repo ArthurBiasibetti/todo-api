@@ -755,10 +755,10 @@
   dependencies:
     "@types/istanbul-lib-report" "*"
 
-"@types/jest@^27.5.0":
-  version "27.5.0"
-  resolved "https://registry.npmjs.org/@types/jest/-/jest-27.5.0.tgz"
-  integrity sha512-9RBFx7r4k+msyj/arpfaa0WOOEcaAZNmN+j80KFbFCoSqCJGHTz7YMAMGQW9Xmqm5w6l5c25vbSjMwlikJi5+g==
+"@types/jest@^27.5.1":
+  version "27.5.1"
+  resolved "https://registry.npmjs.org/@types/jest/-/jest-27.5.1.tgz"
+  integrity sha512-fUy7YRpT+rHXto1YlL+J9rs0uLGyiqVt3ZOTQR+4ROc47yNl8WLdVLgUloBRhOxP1PZvguHl44T3H0wAWxahYQ==
   dependencies:
     jest-matcher-utils "^27.0.0"
     pretty-format "^27.0.0"
@@ -858,6 +858,11 @@
   version "0.0.30"
   resolved "https://registry.npmjs.org/@types/strip-json-comments/-/strip-json-comments-0.0.30.tgz"
   integrity sha512-7NQmHra/JILCd1QqpSzl8+mJRc8ZHz3uDm8YV1Ks9IhK0epEiTw8aIErbvH9PI+6XbqhyIQy3462nEsn7UVzjQ==
+
+"@types/uuid@^8.3.4":
+  version "8.3.4"
+  resolved "https://registry.yarnpkg.com/@types/uuid/-/uuid-8.3.4.tgz#bd86a43617df0594787d38b735f55c805becf1bc"
+  integrity sha512-c/I8ZRb51j+pYGAu5CrFMRxqZ2ke4y2grEBO5AUjgSkSk+qT2Ea+OdWElz/OiMf5MNpn2b17kuVBwZLQJXzihw==
 
 "@types/yargs-parser@*":
   version "21.0.0"
@@ -2723,7 +2728,7 @@ json-stable-stringify-without-jsonify@^1.0.1:
   resolved "https://registry.npmjs.org/json-stable-stringify-without-jsonify/-/json-stable-stringify-without-jsonify-1.0.1.tgz"
   integrity sha1-nbe1lJatPzz+8wp1FC0tkwrXJlE=
 
-json5@2.x, json5@^2.2.1:
+json5@^2.2.1:
   version "2.2.1"
   resolved "https://registry.npmjs.org/json5/-/json5-2.2.1.tgz"
   integrity sha512-1hqLFMSrGHRHxav9q9gNjJ5EXznIxGVO09xQRrwplcS8qs28pZ8s8hupZAmqDwZUmVZ2Qb2jnyPOWcDH8m8dlA==
@@ -3850,15 +3855,15 @@ tree-kill@^1.2.2:
   resolved "https://registry.npmjs.org/tree-kill/-/tree-kill-1.2.2.tgz"
   integrity sha512-L0Orpi8qGpRG//Nd+H90vFB+3iHnue1zSSGmNOOCh1GLJ7rUKVwV2HvijphGQS2UmhUZewS9VgvxYIdgr+fG1A==
 
-ts-jest@^28.0.2:
-  version "28.0.2"
-  resolved "https://registry.npmjs.org/ts-jest/-/ts-jest-28.0.2.tgz"
-  integrity sha512-IOZMb3D0gx6IHO9ywPgiQxJ3Zl4ECylEFwoVpENB55aTn5sdO0Ptyx/7noNBxAaUff708RqQL4XBNxxOVjY0vQ==
+ts-jest@^28.0.3:
+  version "28.0.3"
+  resolved "https://registry.npmjs.org/ts-jest/-/ts-jest-28.0.3.tgz"
+  integrity sha512-HzgbEDQ2KgVtDmpXToqAcKTyGHdHsG23i/iUjfxji92G5eT09S1m9UHZd7csF0Bfgh9txM4JzwHnv7r1waFPlw==
   dependencies:
     bs-logger "0.x"
     fast-json-stable-stringify "2.x"
     jest-util "^28.0.0"
-    json5 "2.x"
+    json5 "^2.2.1"
     lodash.memoize "4.x"
     make-error "1.x"
     semver "7.x"
@@ -4001,6 +4006,11 @@ utils-merge@1.0.1:
   version "1.0.1"
   resolved "https://registry.npmjs.org/utils-merge/-/utils-merge-1.0.1.tgz"
   integrity sha1-n5VxD1CiZ5R7LMwSR0HBAoQn5xM=
+
+uuid@^8.3.2:
+  version "8.3.2"
+  resolved "https://registry.yarnpkg.com/uuid/-/uuid-8.3.2.tgz#80d5b5ced271bb9af6c445f21a1a04c606cefbe2"
+  integrity sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==
 
 v8-compile-cache@^2.0.3:
   version "2.3.0"

@@ -13,14 +13,9 @@ export const createSessionHandle = async (req: Request, res: Response) => {
 
   const user = await verifyLogin(email, password);
 
-  if (!user) {
-    throw new AppError('Invalid Email or Password', 401);
-  }
-
   const token = createSession(user.id);
 
   res.set('authorization', token);
-
   res.status(204).send();
 };
 

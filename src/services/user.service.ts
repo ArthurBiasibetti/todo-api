@@ -8,13 +8,13 @@ import AppError from '@utils/AppError.utils';
 import config from '@config/config';
 import cleanObject from '@utils/cleanObject.utils';
 
-interface IUserCreateRequest {
+export interface IUserCreateRequest {
   name: string;
   password: string;
   email: string;
 }
 
-interface IUserUpdateRequest {
+export interface IUserUpdateRequest {
   name?: string;
   password?: string;
   email?: string;
@@ -53,30 +53,30 @@ export const findUser = async (id: string) => {
   return user;
 };
 
-export const verifyLogin = async (email: string, password: string) => {
-  const userRepository = getRepository(User);
-
-  const user = await userRepository.findOne({ email });
-
-  if (!user) {
-    return false;
-  }
-
-  const passwordIsValid = await bcrypt.compare(password, user.password);
-
-  if (!passwordIsValid) {
-    return false;
-  }
-
-  return user;
-};
-
 export const findUsers = async () => {
   const userRepository = getRepository(User);
 
   const users = await userRepository.find({ order: { createdAt: 'DESC' } });
 
   return users;
+};
+
+export const verifyLogin = async (email: string, password: string) => {
+  const userRepository = getRepository(User);
+
+  const user = await userRepository.findOne({ email });
+
+  if (!user) {
+    throw new AppError('Invalid Email or Password', 401);
+  }
+
+  const passwordIsValid = await bcrypt.compare(password, user.password);
+
+  if (!passwordIsValid) {
+    throw new AppError('Invalid Email or Password', 401);
+  }
+
+  return user;
 };
 
 export const updateUser = async (

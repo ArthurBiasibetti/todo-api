@@ -12,7 +12,7 @@ import verifyAuth from 'src/middleware/verifyJWT';
 
 const routes = Router();
 
-routes.route('/').get(findTodosHandle);
+routes.route('/').get(verifyAuth, findTodosHandle);
 
 routes.route('/list/:listId').post(
   celebrate({

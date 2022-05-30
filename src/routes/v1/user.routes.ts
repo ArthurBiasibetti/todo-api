@@ -8,15 +8,16 @@ import {
 } from '@controllers/user.controller';
 
 import { celebrate, Joi, Segments } from 'celebrate';
+import verifyAuth from 'src/middleware/verifyJWT';
 
 const routes = Router();
 
-routes.route('/').post(createUserHandle).get(findUsersHandle);
+routes.route('/').post(createUserHandle).get(verifyAuth, findUsersHandle);
 
 routes
   .route('/:userId')
-  .get(findUserHandle)
-  .put(updateUserHandle)
-  .delete(deleteUserHandle);
+  .get(verifyAuth, findUserHandle)
+  .put(verifyAuth, updateUserHandle)
+  .delete(verifyAuth, deleteUserHandle);
 
 export default routes;

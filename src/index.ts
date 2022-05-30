@@ -7,9 +7,13 @@ import AppError from './utils/AppError.utils';
 import { errors } from 'celebrate';
 import './utils/typeorm';
 
+const corsOptions = {
+  exposedHeaders: ['authorization', 'refresh'],
+};
+
 const app = express();
 
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
 
 routes(app);

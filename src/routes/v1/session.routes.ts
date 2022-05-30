@@ -9,6 +9,17 @@ import verifyAuth from 'src/middleware/verifyJWT';
 
 const routes = Router();
 
-routes.route('/').post(createSessionHandle).get(verifyAuth, findSession);
+routes
+  .route('/')
+  .post(
+    celebrate({
+      [Segments.BODY]: {
+        email: Joi.string().required(),
+        password: Joi.string().required(),
+      },
+    }),
+    createSessionHandle,
+  )
+  .get(verifyAuth, findSession);
 
 export default routes;
