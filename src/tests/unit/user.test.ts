@@ -1,6 +1,5 @@
-import * as typeorm from 'typeorm';
+import fakeGetRepository from '../fakes/getRepository';
 import bcrypt from 'bcrypt';
-import { Repository } from 'typeorm';
 import {
   createUser,
   deleteUser,
@@ -13,6 +12,7 @@ import {
 import { v4 as uuidv4 } from 'uuid';
 import User from '@models/user.models';
 import AppError from '@utils/AppError.utils';
+import { Repository } from 'typeorm';
 
 const findUserStub = [
   {
@@ -53,15 +53,15 @@ const findUserFake = jest
     return user;
   });
 
-const spyGetRepository = jest.spyOn(typeorm, 'getRepository');
-
-spyGetRepository.mockReturnValue({
-  create: createUserFake,
-  save: saveUserFake,
-  remove: removeUserFake,
-  findOne: findUserFake,
-  find: findUsersFake,
-} as unknown as Repository<User>);
+  fakeGetRepository.mockReturnValue(
+  {
+    create: createUserFake,
+    save: saveUserFake,
+    remove: removeUserFake,
+    findOne: findUserFake,
+    find: findUsersFake,
+  } as unknown as Repository<User>
+);
 
 describe('User Services', () => {
   describe('Create', () => {
