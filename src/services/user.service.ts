@@ -1,4 +1,3 @@
-import List from '@models/list.models';
 import User from '@models/user.models';
 
 import { getRepository } from 'typeorm';

@@ -17,7 +17,8 @@ export const createListHandle = async (req: Request, res: Response) => {
 };
 
 export const getListsHandle = async (req: Request, res: Response) => {
-  const lists = await findLists();
+  const { userId } = req.params;
+  const lists = await findLists(userId);
 
   return res.json(lists);
 };

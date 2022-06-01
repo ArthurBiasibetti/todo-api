@@ -12,20 +12,29 @@ import verifyAuth from 'src/middleware/verifyJWT';
 
 const routes = Router();
 
-routes.route('/').get(verifyAuth, getListsHandle);
-
-routes.route('/user/:userId').post(
-  verifyAuth,
-  celebrate({
-    [Segments.BODY]: {
-      title: Joi.string().required(),
-    },
-    [Segments.PARAMS]: {
-      userId: Joi.string().uuid().required(),
-    },
-  }),
-  createListHandle,
-);
+routes
+  .route('/users/:userId')
+  .get(
+    verifyAuth,
+    celebrate({
+      [Segments.PARAMS]: {
+        userId: Joi.string().uuid().required(),
+      },
+    }),
+    getListsHandle,
+  )
+  .post(
+    verifyAuth,
+    celebrate({
+      [Segments.BODY]: {
+        title: Joi.string().required(),
+      },
+      [Segments.PARAMS]: {
+        userId: Joi.string().uuid().required(),
+      },
+    }),
+    createListHandle,
+  );
 
 routes
   .route('/:id')

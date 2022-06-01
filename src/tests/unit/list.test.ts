@@ -1,17 +1,13 @@
-import { createList } from '../../services/list.service';
+import { createList, findList, findLists } from '../../services/list.service';
 import { v4 as uuidv4 } from 'uuid';
 
 import fakeGetRepository from '../fakes/getRepository';
+import fakeUserFind from '../fakes/findUser';
 import List from '@models/list.models';
 import { Repository } from 'typeorm';
-
-const createUserFake = jest.fn().mockImplementation(() => {
-  const newList = { id: uuidv4() };
-
-  return newList;
-});
-const saveUserFake = jest.fn().mockImplementation(() => true);
-const removeUserFake = jest.fn().mockImplementation(() => true);
+import AppError from '@utils/AppError.utils';
+import User from '@models/user.models';
+import { findUser } from 'src/services/user.service';
 
 const findUserStub = [
   {
@@ -32,26 +28,116 @@ const findUserStub = [
   },
 ];
 
+const findListStub = [
+  {
+    id: '696ea535-bda9-4226-b27b-883b240d4d13',
+    createdAt: '2022-05-30T03:57:46.413Z',
+    updatedAt: '2022-05-30T03:57:46.413Z',
+    title: 'Lista de compras',
+    user: findUserStub[1],
+  },
+  {
+    id: 'b09b6e98-35f2-40b7-9142-a1ee07f6b42e',
+    createdAt: '2022-05-23T05:04:31.219Z',
+    updatedAt: '2022-05-23T05:04:31.219Z',
+    title: 'Lista de compras',
+    user: findUserStub[1],
+  },
+];
+
+const findListsFake = jest
+  .fn()
+  .mockImplementation(({ where }: { where: { user: { id: string } } }) => {
+    const lists = findListStub.filter(list => list.user.id === where.user.id);
+
+    return lists;
+  });
+
+const createListFake = jest.fn().mockImplementation((list: List) => {
+  const newList = { ...list, id: uuidv4() };
+
+  return newList;
+});
+
+const findListFake = jest.fn().mockImplementation((finder: { id: string }) => {
+  const list = findListStub.find(list => list.id === finder.id);
+
+  return list;
+});
+
+const saveListFake = jest.fn().mockImplementation(() => true);
+const removeListFake = jest.fn().mockImplementation(() => true);
+
 const mockListReturn = {
-  create: createUserFake,
-  save: saveUserFake,
-  remove: removeUserFake,
+  create: createListFake,
+  save: saveListFake,
+  remove: removeListFake,
+  find: findListsFake,
+  findOne: findListFake,
 };
 
-const mockUserReturn = {
-  create: createUserFake,
-  save: saveUserFake,
-  remove: removeUserFake,
-};
+fakeGetRepository.mockReturnValue(
+  mockListReturn as unknown as Repository<List>,
+);
+
+fakeUserFind.mockImplementation(
+  (id: string) =>
+    findUserStub.find(user => user.id === id) as unknown as Promise<User>,
+);
 
 describe('List services', () => {
   describe('Create', () => {
     it('Should be able to create a list', async () => {
-      fakeGetRepository.mockReturnValue(
-        mockListReturn as unknown as Repository<List>,
-      );
+      const list = await createList(findUserStub[1].id, {
+        title: 'Lista de salves',
+      });
 
-      expect(1).toBe(1);
+      expect(list.title).toBe('Lista de salves');
+      expect(list).toHaveProperty('id');
+      expect(list.user).toEqual(findUserStub[1]);
+      expect(fakeUserFind).toBeCalledTimes(1);
+      expect(createListFake).toBeCalledTimes(1);
+      expect(saveListFake).toBeCalledTimes(1);
+    });
+
+    it('Should not be able to create a list', async () => {
+      expect(
+        createList('not-exist-user-id', {
+          title: 'Lista de salves',
+        }),
+      ).rejects.toBeInstanceOf(AppError);
+
+      expect(fakeUserFind).toBeCalledTimes(1);
+    });
+  });
+
+  describe('Find', () => {
+    it('Should be able to find user lists', async () => {
+      const lists = await findLists(findUserStub[1].id);
+
+      expect(lists).toEqual(findListStub);
+    });
+
+    it('Should find an empty array', async () => {
+      const lists = await findLists(findUserStub[0].id);
+
+      expect(lists).toEqual([]);
+      expect(fakeUserFind).toBeCalledTimes(1);
+      expect(findListsFake).toBeCalledTimes(1);
+    });
+
+    it('Should not be able to find user lists, user not found', async () => {
+      await expect(findLists('not-exist-user-id')).rejects.toBeInstanceOf(
+        AppError,
+      );
+      expect(fakeUserFind).toBeCalledTimes(1);
+    });
+
+    it('Should to be able to find an list', async () => {
+      const list = await findList(findListStub[0].id);
+
+      expect(list).toEqual(findListStub[0]);
+      expect(findListFake).toBeCalledTimes(1);
     });
   });
 });

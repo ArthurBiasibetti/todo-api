@@ -2,16 +2,16 @@ import List from '@models/list.models';
 import User from '@models/user.models';
 import AppError from '@utils/AppError.utils';
 import { getRepository } from 'typeorm';
+import { findUser } from './user.service';
 
 interface IListRequest {
   title: string;
 }
 
 export const createList = async (userId: string, { title }: IListRequest) => {
-  const userRepository = getRepository(User);
   const listRepository = getRepository(List);
 
-  const user = await userRepository.findOne({ id: userId });
+  const user = await findUser(userId);
 
   if (!user) {
     throw new AppError('User not exist!');
@@ -24,10 +24,19 @@ export const createList = async (userId: string, { title }: IListRequest) => {
   return list;
 };
 
-export const findLists = async () => {
+export const findLists = async (userId: string) => {
   const listRepository = getRepository(List);
 
+  const user = await findUser(userId);
+
+  if (!user) {
+    throw new AppError('User not Found!');
+  }
+
   const lists = await listRepository.find({
+    where: {
+      user: user,
+    },
     order: {
       createdAt: 'DESC',
     },
